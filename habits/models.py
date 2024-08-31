@@ -13,19 +13,19 @@ class Habit(models.Model):
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         verbose_name="Обладатель привычки",
         **NULLABLE,
     )
     location = models.CharField(max_length=200, verbose_name="Место привычки")
-    date_time = models.DateTimeField(verbose_name="Дата и время привычки")
+    date_time = models.DateTimeField(verbose_name="Дата и время выполнения")
     action = models.CharField(max_length=200, verbose_name="Действие")
-    is_nice = models.BooleanField(verbose_name="Приятная")
+    is_nice = models.BooleanField(verbose_name="Приятная привычка")
     related_habit = models.ForeignKey(
-        "self", on_delete=models.SET_NULL, **NULLABLE, verbose_name="Связанная привычка"
+        "self", on_delete=models.CASCADE, **NULLABLE, verbose_name="Связанная привычка"
     )
-    frequency_number = models.PositiveIntegerField(verbose_name="Количество раз")
-    frequency_unit = models.CharField(
+    periodicity = models.PositiveIntegerField(verbose_name="Периодичность")
+    periodicity_unit = models.CharField(
         max_length=10,
         choices=UNITS_OF_TIME,
         default="days",
