@@ -8,11 +8,11 @@ from habits.serializers import HabitSerializer
 
 
 class HabitViewSet(viewsets.ModelViewSet):
-    serializer_class = HabitSerializer
-    pagination_class = HabitPaginator
-
     def get_queryset(self):
         return Habit.objects.filter(user=self.request.user)
+
+    serializer_class = HabitSerializer
+    pagination_class = HabitPaginator
 
     def perform_create(self, serializer):
         new_habit = serializer.save()
