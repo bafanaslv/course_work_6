@@ -26,7 +26,7 @@ class Habit(models.Model):
         **NULLABLE,
     )
     location = models.CharField(max_length=200, choices=LOCATIONS, default="home", verbose_name="Место привычки")
-    habit_time = models.DateTimeField(verbose_name="Время выполнения привычки")
+    habit_time = models.TimeField(verbose_name="Время выполнения привычки")
     action = models.CharField(max_length=200, verbose_name="Действие")
     is_nice = models.BooleanField(verbose_name="Приятная привычка")
     related_habit = models.ForeignKey(
