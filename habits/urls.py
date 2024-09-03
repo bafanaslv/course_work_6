@@ -10,18 +10,18 @@ from habits.views import (
     HabitRetrieveAPIView,
     HabitUpdateAPIView,
     HabitDestroyAPIView,
-    HomeListAPIView,
+    PublicListAPIView,
 )
 
 app_name = HabitsConfig.name
 
 urlpatterns = [
-    path("", HomeListAPIView.as_view(), name="home-habits"),
-    path("habits/", HabitListAPIView.as_view(), name="habits"),
+    path("", HabitListAPIView.as_view(), name="habits"),
+    path("public/", PublicListAPIView.as_view(), name="public"),
     path("create/", HabitCreateAPIView.as_view(), name="create"),
-    path("<int:pk>/", HabitRetrieveAPIView.as_view(), name="habit-view"),
-    path("update/<int:pk>/", HabitUpdateAPIView.as_view(), name="habit-update"),
-    path("delete/<int:pk>/", HabitDestroyAPIView.as_view(), name="habit-delete"),
+    path("retrieve/<int:pk>/", HabitRetrieveAPIView.as_view(), name="retrieve"),
+    path("update/<int:pk>/", HabitUpdateAPIView.as_view(), name="update"),
+    path("delete/<int:pk>/", HabitDestroyAPIView.as_view(), name="delete"),
 ]
 
 schema_view = get_schema_view(

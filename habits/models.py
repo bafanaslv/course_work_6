@@ -6,9 +6,9 @@ NULLABLE = {"null": True, "blank": True}
 
 class Habit(models.Model):
     UNITS_OF_TIME = [
-        ("minutes", "минуты"),
         ("hours", "часы"),
         ("days", "дни"),
+        ("week", "неделя")
     ]
 
     LOCATIONS = [
@@ -32,8 +32,9 @@ class Habit(models.Model):
     related_habit = models.ForeignKey(
         "self", on_delete=models.SET_NULL, **NULLABLE, verbose_name="Связанная привычка"
     )
-    periodicity = models.CharField(
-        max_length=10,
+    periodicity_quantity = models.PositiveIntegerField(verbose_name="Частота выполнения привычки")
+    periodicity_init = models.CharField(
+        max_length=6,
         choices=UNITS_OF_TIME,
         default="days",
         verbose_name="Единицы измерения",

@@ -4,16 +4,11 @@ from rest_framework.permissions import AllowAny
 from habits.models import Habit
 from habits.paginations import HabitPaginator
 from habits.serializers import HabitSerializer
-from users.permissions import IsOwner
-# from habits.services import send_telegram_message
-from rest_framework.response import Response
+from habits.permissions import IsOwner
 
 
-class HomeListAPIView(generics.ListAPIView):
-    """
-    Класс вывода привычек с флагом публичные.
-    """
-
+class PublicListAPIView(generics.ListAPIView):
+    """Выывод публичных привычек."""
     serializer_class = HabitSerializer
     queryset = Habit.objects.filter(is_public=True)
     permission_classes = (AllowAny,)
@@ -21,10 +16,7 @@ class HomeListAPIView(generics.ListAPIView):
 
 
 class HabitListAPIView(generics.ListAPIView):
-    """
-    Класс просмотра привычек пользователя.
-    """
-
+    """Просмотр привычек пользователя."""
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     pagination_class = HabitPaginator
@@ -34,19 +26,12 @@ class HabitListAPIView(generics.ListAPIView):
 
 
 class HabitCreateAPIView(generics.CreateAPIView):
-    """
-    Класс создания привычки.
-    """
-
+    """Создание привычки."""
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
 
     def perform_create(self, serializer):
-        """
-        Привязка привычки к пользователю.
-        :param serializer:
-        :return:
-        """
+        """Привязка привычки к пользователю."""
         habit = serializer.save()
         habit.user = self.request.user
         habit.save()
@@ -55,45 +40,32 @@ class HabitCreateAPIView(generics.CreateAPIView):
     #     user = self.request.user
     #     message = "привычка создана"
     #     if user.tg_nick:
-    #         send_telegram_message(user.tg_nick, message)
+    #         telegram_message(user.tg_nick, message)
     #
     #     return Response({"message": message})
 
 
 class HabitRetrieveAPIView(generics.RetrieveAPIView):
-    """
-    Класс просмотра подробностей привычки.
-    """
-
+    """Просмотр подробностей привычки."""
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     permission_classes = (IsOwner,)
 
 
 class HabitUpdateAPIView(generics.UpdateAPIView):
-    """
-    Класс изменения привычки.
-    """
-
+    """Изменение привычки."""
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     permission_classes = (IsOwner,)
 
     def perform_create(self, serializer):
-        """
-        Привязка привычки к пользователю.
-        :param serializer:
-        :return:
-        """
+        """Привязка привычки к пользователю."""
         habit = serializer.save()
         habit.user = self.request.user
         habit.save()
 
 
 class HabitDestroyAPIView(generics.DestroyAPIView):
-    """
-    Класс удаления привычки.
-    """
-
+    """Удаление привычки."""
     queryset = Habit.objects.all()
     permission_classes = (IsOwner,)
