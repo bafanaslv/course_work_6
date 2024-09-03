@@ -36,13 +36,13 @@ class HabitCreateAPIView(generics.CreateAPIView):
         habit.user = self.request.user
         habit.save()
 
-    # def post(self, request, *args, **kwargs):
-    #     user = self.request.user
-    #     message = "привычка создана"
-    #     if user.tg_nick:
-    #         telegram_message(user.tg_nick, message)
-    #
-    #     return Response({"message": message})
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        message = "привычка создана"
+        if user.tg_nick:
+            telegram_message(user.tg_nick, message)
+
+        return Response({"message": message})
 
 
 class HabitRetrieveAPIView(generics.RetrieveAPIView):

@@ -4,7 +4,7 @@ from habits.models import Habit
 from habits.validators import (
     PresentValidator,
     RelatedHabitValidator,
-    PeriodicityTimeValidator,
+    PeriodicityValidator,
     NaceHabitValidator,
     CompleteTimeValidator,
 )
@@ -19,5 +19,5 @@ class HabitSerializer(ModelSerializer):
             RelatedHabitValidator(field="related_habit"),
             CompleteTimeValidator(field="complete_time"),
             NaceHabitValidator(field="is_nice"),
-            PeriodicityTimeValidator(field1="periodicity_quantity", field2="periodicity_init"),
+            PeriodicityValidator(field="period"),
         ]
