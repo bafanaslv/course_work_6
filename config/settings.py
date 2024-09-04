@@ -128,9 +128,9 @@ CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 CELERY_TIMEZONE = "Europe/Moscow"
 CELERY_BEAT_SCHEDULE = {
-    # Задача на блокировку неактивных пользователей
-    "check_last_login": {
-        "task": "courses.tasks.check_login",
+    # Задача отправки сообщений на Telegram
+    "send_mwssage": {
+        "task": "habits.tasks.telegram_message_list",
         "schedule": timedelta(minutes=1),
     },
 }
@@ -153,5 +153,5 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", False) == "True"
 EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", False) == "True"
 
-TELEGRAM_BOT_TOKEN = os.getenv("BOT_TOKEN")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_URL = os.getenv("TELEGRAM_URL")

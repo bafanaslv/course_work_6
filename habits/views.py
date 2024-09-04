@@ -1,10 +1,12 @@
-from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework import generics, status
 from rest_framework.permissions import AllowAny
 
 from habits.models import Habit
 from habits.paginations import HabitPaginator
 from habits.serializers import HabitSerializer
 from habits.permissions import IsOwner
+from habits.services import telegram_message
 
 
 class PublicListAPIView(generics.ListAPIView):
@@ -31,18 +33,12 @@ class HabitCreateAPIView(generics.CreateAPIView):
     queryset = Habit.objects.all()
 
     def perform_create(self, serializer):
-        """Привязка привычки к пользователю."""
+        """Создаем привычку и отправляем сообщение пользователю сообщение в Телеграм об этом."""
         habit = serializer.save()
         habit.user = self.request.user
         habit.save()
-
-    def post(self, request, *args, **kwargs):
-        user = self.request.user
-        message = "привычка создана"
-        if user.tg_nick:
-            telegram_message(user.tg_nick, message)
-
-        return Response({"message": message})
+        if habit.user.tg_chat_id:
+            telegram_message(habit.user.tg_chat_id, 'Создана новая привычка !')
 
 
 class HabitRetrieveAPIView(generics.RetrieveAPIView):
