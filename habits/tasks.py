@@ -1,37 +1,18 @@
 from celery import shared_task
-from django.utils import timezone
-
+from habits.services import telegram_message
+from django.conf import settings
+import pytz
+from datetime import datetime, timedelta
 from habits.models import Habit
-from habits.utils import telegram_message
 
 
 @shared_task()
-def habit():
-
-    now = timezone.now()
-    print(f"Текущее время: {now}")
-
-    habits = Habit.objects.filter(
-        time__lte=now, time__gt=now - timezone.timedelta(minutes=1)
-    )
-
-    print(f"Найдено привычек: {habits.count()}")
-
+def telegram_mailing_list():
+    zone = pytz.timezone(settings.TIME_ZONE)
+    current_time = datetime.now(zone)
+    current_time_less = current_time - timedelta(minutes=5)
+    habits = Habit.objects.filter(time__lte=current_time.time(), time__gte=current_time_less.time())
     for habit in habits:
-        if habit.user.tg_chat_id:
-            telegram_message(habit)
-            if habit.frequency_unit == "days":
-                habit.time = habit.time + timezone.timedelta(
-                    days=habit.frequency_number
-                )
-            elif habit.frequency_unit == "hours":
-                habit.time = habit.time + timezone.timedelta(
-                    hours=habit.frequency_number
-                )
-            elif habit.frequency_unit == "minutes":
-                habit.time = habit.time + timezone.timedelta(
-                    minutes=habit.frequency_number
-                )
-            habit.save()
-        else:
-            print(f"У пользователя {habit.user} не указан Телеграм чат id!")
+        user_tg = habit.user.tg_chat_id
+        message = f"я буду {habit.action} в {habit.time} в {habit.place}"
+        telegram_message(user_tg, message)

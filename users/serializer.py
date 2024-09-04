@@ -7,7 +7,7 @@ from users.models import Users
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
-        fields = ("id", "email", "phone", "avatar", "tg_nick")
+        fields = ("id", "email", "phone", "tg_chat_id")
 
 
 class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
