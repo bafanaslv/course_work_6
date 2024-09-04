@@ -5,13 +5,6 @@ NULLABLE = {"null": True, "blank": True}
 
 
 class Habit(models.Model):
-    LOCATIONS = [
-        ("home", "дом"),
-        ("work", "работа"),
-        ("street", "улица"),
-        ("auto", "автомобиль"),
-        ("fitness", "фитнес зал"),
-    ]
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -19,7 +12,7 @@ class Habit(models.Model):
         verbose_name="Обладатель привычки",
         **NULLABLE,
     )
-    location = models.CharField(max_length=200, choices=LOCATIONS, default="home", verbose_name="Место привычки")
+    location = models.CharField(max_length=200, default="дома", verbose_name="Место привычки")
     habit_time = models.DateTimeField(verbose_name="Следующая дата и время выполнения привычки")
     action = models.CharField(max_length=200, verbose_name="Действие")
     is_nice = models.BooleanField(verbose_name="Приятная привычка")
