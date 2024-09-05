@@ -15,9 +15,9 @@ class Habit(models.Model):
     location = models.CharField(max_length=200, default="дома", verbose_name="Место привычки")
     habit_time = models.DateTimeField(verbose_name="Следующая дата и время выполнения привычки")
     action = models.CharField(max_length=200, verbose_name="Действие")
-    is_nice = models.BooleanField(verbose_name="Приятная привычка")
+    is_nice = models.BooleanField(default=False, verbose_name="Приятная привычка")
     related_habit = models.ForeignKey(
-        "self", on_delete=models.SET_NULL, **NULLABLE, verbose_name="Связанная привычка"
+        "self", on_delete=models.SET_NULL, verbose_name="Связанная привычка", **NULLABLE
     )
     period = models.PositiveIntegerField(verbose_name="Частота выполнения привычки")
     present = models.CharField(max_length=200, verbose_name="Вознаграждение", **NULLABLE)

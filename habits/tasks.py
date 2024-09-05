@@ -19,12 +19,12 @@ def telegram_message_list():
     for habit in habits:
         if not habit.related_habit:
             user_tg = habit.user.tg_chat_id
-            if user_tg and now < habit.habit_time - timedelta(minutes=10) and now.date() == habit.habit_time.date():
-                message = f"Не забудь {habit.action} в {habit.habit_time} в {habit.location}"
+            if user_tg and now <= habit.habit_time - timedelta(minutes=10) and now.date() == habit.habit_time.date():
+                message = f"Не забудь {habit.action} в {habit.habit_time} {habit.location}"
                 telegram_message(user_tg, message)
                 habit.habit_time += timedelta(days=habit.period)
                 if habit.present:
-                    telegram_message(user_tg, f"Молодец! Ты залужил награду: {habit.present}")
+                    telegram_message(user_tg, f"Молодец! Ты заслужил награду: {habit.present}")
                 elif habit.related_habit:
                     rel_habit = Habit.objects.filter(pk=habit.related_habit)
                     telegram_message(user_tg, rel_habit.action)
