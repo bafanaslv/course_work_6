@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from users.models import Users
-from users.serializer import (UserSerializer, UserTokenObtainPairSerializer)
+from users.serializer import UserSerializer, UserTokenObtainPairSerializer
 
 
 class UserListAPIView(ListAPIView):

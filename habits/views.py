@@ -1,16 +1,16 @@
-from rest_framework.response import Response
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.permissions import AllowAny
 
 from habits.models import Habit
 from habits.paginations import HabitPaginator
-from habits.serializers import HabitSerializer
 from habits.permissions import IsOwner
+from habits.serializers import HabitSerializer
 from habits.services import telegram_message
 
 
 class PublicListAPIView(generics.ListAPIView):
     """Выывод публичных привычек."""
+
     serializer_class = HabitSerializer
     queryset = Habit.objects.filter(is_public=True)
     permission_classes = (AllowAny,)
@@ -19,6 +19,7 @@ class PublicListAPIView(generics.ListAPIView):
 
 class HabitListAPIView(generics.ListAPIView):
     """Просмотр привычек пользователя."""
+
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     pagination_class = HabitPaginator
@@ -29,6 +30,7 @@ class HabitListAPIView(generics.ListAPIView):
 
 class HabitCreateAPIView(generics.CreateAPIView):
     """Создание привычки."""
+
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
 
@@ -38,11 +40,12 @@ class HabitCreateAPIView(generics.CreateAPIView):
         habit.user = self.request.user
         habit.save()
         if habit.user.tg_chat_id:
-            telegram_message(habit.user.tg_chat_id, 'Создана новая привычка !')
+            telegram_message(habit.user.tg_chat_id, "Создана новая привычка !")
 
 
 class HabitRetrieveAPIView(generics.RetrieveAPIView):
     """Просмотр подробностей привычки."""
+
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     permission_classes = (IsOwner,)
@@ -50,6 +53,7 @@ class HabitRetrieveAPIView(generics.RetrieveAPIView):
 
 class HabitUpdateAPIView(generics.UpdateAPIView):
     """Изменение привычки."""
+
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     permission_classes = (IsOwner,)

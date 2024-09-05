@@ -4,14 +4,9 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from habits.apps import HabitsConfig
-from habits.views import (
-    HabitListAPIView,
-    HabitCreateAPIView,
-    HabitRetrieveAPIView,
-    HabitUpdateAPIView,
-    HabitDestroyAPIView,
-    PublicListAPIView,
-)
+from habits.views import (HabitCreateAPIView, HabitDestroyAPIView,
+                          HabitListAPIView, HabitRetrieveAPIView,
+                          HabitUpdateAPIView, PublicListAPIView)
 
 app_name = HabitsConfig.name
 
@@ -24,15 +19,15 @@ urlpatterns = [
     path("delete/<int:pk>/", HabitDestroyAPIView.as_view(), name="delete"),
 ]
 
-# schema_view = get_schema_view(
-#     openapi.Info(
-#         title="API Documentation",
-#         default_version="v1",
-#         description="Подписка на курсы обучения.",
-#         terms_of_service="http://localhost:8000/habits/",
-#         contact=openapi.Contact(email="foxship@yandex.ru"),
-#         license=openapi.License(name="BSD License"),
-#     ),
-#     public=True,
-#     permission_classes=[permissions.AllowAny],
-# )
+schema_view = get_schema_view(
+    openapi.Info(
+        title="API Documentation",
+        default_version="v1",
+        description="Список полезных и приятных привычек.",
+        terms_of_service="http://localhost:8000/habits/",
+        contact=openapi.Contact(email="foxship@yandex.ru"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
+)
