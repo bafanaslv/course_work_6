@@ -20,7 +20,10 @@ def telegram_message_list():
         if not habit.related_habit:
             user_tg = habit.user.tg_chat_id
             if user_tg and now <= habit.habit_time - timedelta(minutes=10) and now.date() == habit.habit_time.date():
-                message = f"Не забудь {habit.action} в {habit.habit_time} {habit.location}"
+                if habit.is_nice:
+                    message = f"Молодец - ты заслужил {habit.action} в {habit.habit_time} {habit.location}"
+                else:
+                    message = f"Не забудь {habit.action} в {habit.habit_time} {habit.location}"
                 telegram_message(user_tg, message)
                 habit.habit_time += timedelta(days=habit.period)
                 if habit.present:
