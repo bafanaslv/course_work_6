@@ -12,7 +12,7 @@ from habits.services import telegram_message
 @shared_task()
 def telegram_message_list():
     """Функция за 10 минут до начала выполнения привычки предупреждает и переносит дату следующего
-    выполнения на количество дней в зависимости от периодичности выполнения привычки (habit.period).
+    выполнения на количество дней которая указана в периодичности выполнения привычки (habit.period).
     """
     timezone.activate(pytz.timezone(settings.CELERY_TIMEZONE))
     zone = pytz.timezone(settings.CELERY_TIMEZONE)
@@ -23,7 +23,7 @@ def telegram_message_list():
         user_tg = habit.user.tg_chat_id
         if (
             user_tg
-            and now <= habit.habit_time - timedelta(minutes=10)
+            and now >= habit.habit_time - timedelta(minutes=10)
             and now.date() == habit.habit_time.date()
         ):
             if habit.is_nice:
