@@ -58,12 +58,6 @@ class HabitUpdateAPIView(generics.UpdateAPIView):
     queryset = Habit.objects.all()
     permission_classes = (IsOwner,)
 
-    def perform_create(self, serializer):
-        """Привязка привычки к пользователю."""
-        habit = serializer.save()
-        habit.user = self.request.user
-        habit.save()
-
 
 class HabitDestroyAPIView(generics.DestroyAPIView):
     """Удаление привычки."""
