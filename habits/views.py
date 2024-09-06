@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny
 
 from habits.models import Habit
@@ -57,6 +58,15 @@ class HabitUpdateAPIView(generics.UpdateAPIView):
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     permission_classes = (IsOwner,)
+
+    def perform_update(self, serializer):
+        """Перед сохраннием привычки проверяем не ссылается связанная привычка на саму себя."""
+        habit = serializer.save()
+        if not habit.is_nice and habit.related_habit.id and habit.id == habit.related_habit.id:
+            raise ValidationError(
+                f"Связанная привычка не может быть ссылкой на самого себя !"
+            )
+        habit.save()
 
 
 class HabitDestroyAPIView(generics.DestroyAPIView):
