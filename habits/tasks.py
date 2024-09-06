@@ -27,10 +27,10 @@ def telegram_message_list():
             and now.date() == habit.habit_time.date()
         ):
             if habit.is_nice:
-                message = f"Молодец - ты заслужил {habit.action} в {habit.habit_time} {habit.location}"
+                message = f"Молодец-ты заслужил {habit.action} в {habit.habit_time+timedelta(hours=3)} {habit.location}"
             else:
                 message = (
-                    f"Не забудь {habit.action} в {habit.habit_time} {habit.location}"
+                    f"Не забудь {habit.action} в {habit.habit_time+timedelta(hours=3)} {habit.location}"
                 )
 
             telegram_message(user_tg, message)
