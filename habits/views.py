@@ -39,6 +39,7 @@ class HabitCreateAPIView(generics.CreateAPIView):
         """Создаем привычку и отправляем сообщение пользователю в Телеграм."""
         habit = serializer.save()
         habit.user = self.request.user
+        habit = serializer.save()
         habit.save()
         if habit.user.tg_chat_id:
             telegram_message(habit.user.tg_chat_id, "Создана новая привычка !")
