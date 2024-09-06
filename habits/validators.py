@@ -3,18 +3,10 @@ from datetime import timedelta
 from rest_framework.serializers import ValidationError
 
 
-class HabitValidator:
+class HabitValidators:
     """Валидатор проверяет все возможные требования технического задания."""
-    def __init__(self, field1, field2, field3, field4, field5):
-        self.field1 = field1  # вознаграждение за полезную привычку
-        self.field2 = field2  # связанная привычка (только для полезных)
-        self.field3 = field3  # признак приятной привычки
-        self.field4 = field4  # время выполнения привычки
-        self.field5 = field5  # периодичность выполнения привычки в днях (от 1 до 7)
-
     def __call__(self, value):
         val = dict(value)  # конвертируем QuerySet в словарь
-
         if val.get("complete_time") > timedelta(seconds=120):
             raise ValidationError(
                 "Время выполнения привычки не может быть больше 2-х минут !"
