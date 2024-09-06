@@ -4,7 +4,7 @@ from config import settings
 
 
 def telegram_message(chat_id, message):
-    """Функция предназначена для отправки сообщений в телеграмм."""
+    """Функция предназначена для отправки сообщений в Телеграм."""
     params = {
         "text": message,
         "chat_id": chat_id,

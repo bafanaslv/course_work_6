@@ -15,6 +15,5 @@ class HabitSerializer(ModelSerializer):
                 field3="is_nice",
                 field4="complete_time",
                 field5="period",
-                field6="id",
             )
         ]

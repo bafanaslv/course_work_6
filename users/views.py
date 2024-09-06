@@ -1,3 +1,5 @@
+# Описание представление не требует детелизации. Здесь все стандартно.
+
 from rest_framework.generics import (CreateAPIView, DestroyAPIView,
                                      ListAPIView, RetrieveAPIView,
                                      UpdateAPIView)

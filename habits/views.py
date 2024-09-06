@@ -35,7 +35,7 @@ class HabitCreateAPIView(generics.CreateAPIView):
     queryset = Habit.objects.all()
 
     def perform_create(self, serializer):
-        """Создаем привычку и отправляем сообщение пользователю сообщение в Телеграм об этом."""
+        """Создаем привычку и отправляем сообщение пользователю в Телеграм."""
         habit = serializer.save()
         habit.user = self.request.user
         habit.save()

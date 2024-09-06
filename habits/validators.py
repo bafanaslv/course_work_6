@@ -4,14 +4,13 @@ from rest_framework.serializers import ValidationError
 
 
 class HabitValidator:
-
-    def __init__(self, field1, field2, field3, field4, field5, field6):
+    """Валидатор проверяет все возможные требования технического задания."""
+    def __init__(self, field1, field2, field3, field4, field5):
         self.field1 = field1  # вознаграждение за полезную привычку
         self.field2 = field2  # связанная привычка (только для полезных)
         self.field3 = field3  # признак приятной привычки
         self.field4 = field4  # время выполнения привычки
         self.field5 = field5  # периодичность выполнения привычки в днях (от 1 до 7)
-        self.field6 = field6  # id привычки
 
     def __call__(self, value):
         val = dict(value)  # конвертируем QuerySet в словарь
@@ -52,6 +51,3 @@ class HabitValidator:
 
         elif val.get("is_nice") is True and val.get("present"):
             raise ValidationError("У приятной привычки не может быть вознаграждения !")
-
-        # elif val.get("related_habit") == val.get("id"):
-        #     raise ValidationError("Связанная привычка на должна ссылаться на самого себя !")
