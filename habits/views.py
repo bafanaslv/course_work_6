@@ -65,7 +65,7 @@ class HabitUpdateAPIView(generics.UpdateAPIView):
         habit = serializer.save()
         if not habit.is_nice and habit.related_habit.id and habit.id == habit.related_habit.id:
             raise ValidationError(
-                f"Связанная привычка не может быть ссылкой на самого себя !"
+                f"Связанная привычка не может быть ссылкой на саму себя !"
             )
         habit.save()
 
