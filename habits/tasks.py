@@ -20,7 +20,7 @@ def telegram_message_list():
     habits = Habit.objects.all()
 
     for habit in habits:
-        user_tg = habit.user.tg_chat_id
+        user_tg = habit.user.tg_chat_id  # telegram chat bott id
         if (
             user_tg
             and now >= habit.habit_time - timedelta(minutes=10)
