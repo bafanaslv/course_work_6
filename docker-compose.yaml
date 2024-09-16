@@ -12,7 +12,7 @@ services:
     expose:
       - "5432"
     volumes:
-      - ./pg_data/:$PG_DATA_PATH
+      - pg_data:/var/lib/postgresql/data/
     healthcheck:
       test: ["CMD-SHELL","-c","pg_isready -U $POSTGRES_USER"]
       interval: 10s
@@ -25,7 +25,7 @@ services:
       - "8000:8000"
     environment:
       - POETRY_VIRTUALENVS_CREATE=false
-    command: poetry run sh -c "python manage.py migrate && python manage.py csu && python manage.py runserver 0.0.0.0:8000"
+    command: poetry run sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     depends_on:
       db:
         condition: service_healthy
